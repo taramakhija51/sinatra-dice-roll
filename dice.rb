@@ -6,14 +6,9 @@ require "sinatra/reloader"
 use(BetterErrors::Middleware)
 BetterErrors.application_root = __dir__
 BetterErrors::Middleware.allow_ip!('0.0.0.0/0.0.0.0')
+
 get("/") do
-  "Hello World"
-  "<h3><a href=\"/zebra\">zebra</a></h3>
-  <h3><a href=\"/giraffe\">giraffe</a></h3>
-  <h3><a href=\"/dice/2/6\">Roll two 6-sided dice</a></h3>
-  <h3><a href=\"/dice/2/10\">Roll two 10-sided dice</a></h3>
-  <h3><a href=\"/dice/1/20\">Roll a 20-sided die</a></h3>
-  <h3><a href=\"/dice/5/4\">Roll five four-sided dice</a></h3>"
+  erb(:elephant)
 end
 get("/zebra") do
   "We must add a route for each path we want to support"
@@ -26,10 +21,9 @@ get("/dice/2/6") do
   second_die = rand(1..6)
   sum = first_die + second_die
 	
-  outcome = "You rolled a #{first_die} and a #{second_die} for a total of #{sum}."
-	
-  "<h1>2d6</h1>
-   <p>#{outcome}</p>"
+  @outcome = "You rolled a #{first_die} and a #{second_die} for a total of #{sum}."
+  erb(:two_six)
+ 
 end
 
 get ("/dice/2/10") do
